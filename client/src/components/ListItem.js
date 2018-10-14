@@ -7,15 +7,12 @@ const ListItem = props => (
     <li className="list-group-item">
         <Container>
             <Row>
-                <Col size="xs-4 sm-2">
-                    <img src={props.thumbnail || "https://placehold.it/300x300"} />
-                </Col>
-                <Col size="xs-8 sm-9">
+                <Col size="md-12">
                     <h3>{props.title}</h3>
-                    <p>Ingredients: {props.ingredients}</p>
+                    <p>Date: {props.date}</p>
                     <a rel="noreferrer noopener" target="_blank" href={props.href}>
-                        Go to recipe!
-          </a>
+                        Go to article!
+                    </a>
                 </Col>
             </Row>
         </Container>

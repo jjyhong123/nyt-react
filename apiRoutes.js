@@ -7,7 +7,7 @@ router.get("/scrub", (req, res) => {
 
     axios
     .get("https://api.nytimes.com/svc/search/v2/articlesearch.json?", { params: req.query })
-    .then(results => res.json(results.response.docs))
+    .then(results => res.json(results.data.response.docs))
     .catch(err => res.status(422).json(err));
     
 });

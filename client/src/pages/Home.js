@@ -33,12 +33,13 @@ class Home extends Component {
     event.preventDefault();
     if (this.state.topic && this.state.startYear && this.state.endYear) {
       API.scrubArticles({
-        "api-key": "b9f91d369ff59547cd47b931d8cbc56b:0:74623931",
-        q: this.state.topic,
-        begin_date: this.state.startYear + "0101",
-        end_date: this.state.endYear + "0101"
+        'api-key': "45463f06fa164c8fa0ebdb8e0b188c4e",
+        'q': this.state.topic,
+        'begin_date': this.state.startYear + "0101",
+        'end_date': this.state.endYear + "0101",
+        'page': "0"
       })
-      .then(res => console.log(res.data)/*this.setState({ articles: res.data, topic: "", startYear: "", endYear: "" })*/)
+      .then(res => this.setState({ articles: res.data, topic: "", startYear: "", endYear: "" }))
       .catch(err => console.log(err));
     }
   };
@@ -52,9 +53,6 @@ class Home extends Component {
           <Row>
             <Col size="md-12">
               <form>
-                <p>Topic: {this.state.topic}</p>
-                <p>Start year: {this.state.startYear}</p>
-                <p>End year: {this.state.endYear}</p>
                 <input
                   type="text"
                   placeholder="Topic"
@@ -90,11 +88,10 @@ class Home extends Component {
                     {this.state.articles.map(article => {
                       return (
                         <ListItem
-                          key={article.title}
-                          title={article.title}
-                          href={article.href}
-                          ingredients={article.ingredients}
-                          thumbnail={article.thumbnail}
+                          key={article.snippet}
+                          title={article.snippet}
+                          date={article.pub_date}
+                          href={article.web_url}
                         />
                       );
                     })}
