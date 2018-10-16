@@ -16,9 +16,19 @@ class Saved extends Component {
   };
 
   componentDidMount() {
+    this.loadArticles();
+  };
+
+  loadArticles() {
     API.getArticles()
     .then(res => this.setState({ savedArticles: res.data }))
     .catch(err => console.log(err))
+  }
+
+  deleteArticle = id => {
+    API.deleteArticle(id)
+      .then(res => this.loadArticles())
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -43,11 +53,12 @@ class Saved extends Component {
                         {this.state.savedArticles.map(article => {
                           return (
                             <ListItem
-                              key={article.title}
+                              key={article._id}
                               title={article.title}
                               date={article.date}
                               href={article.url}
                               buttonText="Delete"
+                              onClick={() => this.deleteArticle(article._id)}
                             />
                           );
                         })}
