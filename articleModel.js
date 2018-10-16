@@ -24,4 +24,4 @@ var ArticleSchema = new Schema({
 var Article = mongoose.model("Article", ArticleSchema);
 
 // Export the User model
-module.exports = Article;
+module.exports = {Article: Article};

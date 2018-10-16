@@ -3,8 +3,6 @@ const articlesController = require("./articlesController.js");
 const axios = require("axios");
 
 router.get("/scrub", (req, res) => {
-    console.log(req.query);
-
     axios
     .get("https://api.nytimes.com/svc/search/v2/articlesearch.json?", { params: req.query })
     .then(results => res.json(results.data.response.docs))

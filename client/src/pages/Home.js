@@ -6,6 +6,7 @@ import Jumbotron from "../components/Jumbotron.js";
 import List from "../components/List.js";
 import ListItem from "../components/ListItem.js";
 import API from "../util/API.js";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
 
@@ -39,10 +40,17 @@ class Home extends Component {
         'end_date': this.state.endYear + "0101",
         'page': "0"
       })
-      .then(res => this.setState({ articles: res.data, topic: "", startYear: "", endYear: "" }))
-      .catch(err => console.log(err));
+        .then(res => this.setState({ articles: res.data, topic: "", startYear: "", endYear: "" }))
+        .catch(err => console.log(err));
     }
   };
+
+  // When the save button is clicked, save the article to MongoDB
+  saveArticle = articleData => {
+    API.saveArticle(articleData)
+    .then(res => alert("Article successfully saved."))
+    .catch(err => console.log(err));
+  }
 
   render() {
     return (
@@ -52,54 +60,78 @@ class Home extends Component {
         <Container>
           <Row>
             <Col size="md-12">
-              <form>
-                <input
-                  type="text"
-                  placeholder="Topic"
-                  name="topic"
-                  value={this.state.topic}
-                  onChange={this.handleInputChange}
-                />
-                <input
-                  type="number"
-                  placeholder="Start year"
-                  name="startYear"
-                  value={this.state.startYear}
-                  onChange={this.handleInputChange}
-                />
-                <input
-                  type="number"
-                  placeholder="End year"
-                  name="endYear"
-                  value={this.state.endYear}
-                  onChange={this.handleInputChange}
-                />
-                <button onClick={this.handleFormSubmit}>Submit</button>
-              </form>
+              <div className="card">
+                <div className="card-header">
+                  <strong>
+                    <i className="fa fa-list-alt"></i> Search Parameters</strong>
+                </div>
+                <div className="card-body">
+                  <form>
+                    <div className="form-group">
+                    <input
+                      type="text"
+                      placeholder="Topic"
+                      name="topic"
+                      value={this.state.topic}
+                      onChange={this.handleInputChange}
+                    />
+                    </div>
+                    <div className="form-group">
+                    <input
+                      type="number"
+                      placeholder="Start year"
+                      name="startYear"
+                      value={this.state.startYear}
+                      onChange={this.handleInputChange}
+                    />
+                    </div>
+                    <div className="form-group">
+                    <input
+                      type="number"
+                      placeholder="End year"
+                      name="endYear"
+                      value={this.state.endYear}
+                      onChange={this.handleInputChange}
+                    />
+                    </div>
+                    <button onClick={this.handleFormSubmit}>Submit</button>
+                  </form>
+                </div>
+              </div>
             </Col>
           </Row>
-
+          <br />
           <Row>
             <Col size="md-12">
-              {!this.state.articles.length ? (
-                <h1 className="text-center">No Articles to Display</h1>
-              ) : (
-                  <List>
-                    {this.state.articles.map(article => {
-                      return (
-                        <ListItem
-                          key={article.snippet}
-                          title={article.snippet}
-                          date={article.pub_date}
-                          href={article.web_url}
-                        />
-                      );
-                    })}
-                  </List>
-                )}
+              <div className="card">
+                <div className="card-header">
+                  <strong>
+                    <i className="fa fa-list-alt"></i> Results</strong>
+                </div>
+                <div className="card-body">
+                  {!this.state.articles.length ? (
+                    <h1 className="text-center"></h1>
+                  ) : (
+                      <List>
+                        {this.state.articles.map(article => {
+                          return (
+                            <ListItem
+                              key={article.snippet}
+                              title={article.snippet}
+                              date={article.pub_date}
+                              href={article.web_url}
+                              buttonText="Save"
+                              onClick={() => this.saveArticle({ title: article.snippet, date: article.pub_date, url: article.web_url })}
+                            />
+                          );
+                        })}
+                      </List>
+                    )}
+                </div>
+              </div>
             </Col>
           </Row>
-
+          <Link to={"/saved"}><p>Click to view saved articles!</p></Link>
         </Container>
 
       </div>
