@@ -52,31 +52,25 @@ class Home extends Component {
   // When the save button is clicked, save the article to MongoDB
   saveArticle = articleData => {
     API.saveArticle(articleData)
-    .then(res => alert("Article successfully saved."))
-    .catch(err => console.log(err));
+      .then(res => alert("Article successfully saved."))
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
+
       <Container>
-
         <Jumbotron />
-
-        <div className="text-center">
-          <p>Powered by <img src={NYTLogo} /> Article Search API</p>
-        </div>
-
-        <Container>
-          <Row>
-            <Col size="md-12">
-              <div className="card">
-                <div className="card-header">
-                  <strong>
-                    <i className="fa fa-list-alt"></i> Search Parameters</strong>
-                </div>
-                <div className="card-body text-center">
-                  <form>
-                    <div className="form-group">
+        <Row>
+          <Col size="md-12">
+            <div className="card">
+              <div className="card-header">
+                <strong>
+                  <i className="fa fa-list-alt"></i> Search Parameters</strong>
+              </div>
+              <div className="card-body text-center">
+                <form>
+                  <div className="form-group">
                     <input
                       type="text"
                       placeholder="Topic"
@@ -84,8 +78,8 @@ class Home extends Component {
                       value={this.state.topic}
                       onChange={this.handleInputChange}
                     />
-                    </div>
-                    <div className="form-group">
+                  </div>
+                  <div className="form-group">
                     <input
                       type="number"
                       placeholder="Start year"
@@ -93,8 +87,8 @@ class Home extends Component {
                       value={this.state.startYear}
                       onChange={this.handleInputChange}
                     />
-                    </div>
-                    <div className="form-group">
+                  </div>
+                  <div className="form-group">
                     <input
                       type="number"
                       placeholder="End year"
@@ -102,48 +96,60 @@ class Home extends Component {
                       value={this.state.endYear}
                       onChange={this.handleInputChange}
                     />
-                    </div>
-                    <button onClick={this.handleFormSubmit}>Submit</button>
-                  </form>
-                </div>
+                  </div>
+                  <button onClick={this.handleFormSubmit}>Submit</button>
+                </form>
               </div>
-            </Col>
-          </Row>
-          <br />
-          <Row>
-            <Col size="md-12">
-              <div className="card">
-                <div className="card-header">
-                  <strong>
-                    <i className="fa fa-list-alt"></i> Results</strong>
-                </div>
-                <div className="card-body">
-                  {!this.state.articles.length ? (
-                    <h1 className="text-center"></h1>
-                  ) : (
-                      <List>
-                        {this.state.articles.map(article => {
-                          return (
-                            <ListItem
-                              key={article.snippet}
-                              title={article.snippet}
-                              date={article.pub_date}
-                              href={article.web_url}
-                              buttonText="Save"
-                              onClick={() => this.saveArticle({ title: article.snippet, date: article.pub_date, url: article.web_url })}
-                            />
-                          );
-                        })}
-                      </List>
-                    )}
-                </div>
+            </div>
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col size="md-12">
+            <div className="card">
+              <div className="card-header">
+                <strong>
+                  <i className="fa fa-list-alt"></i> Results</strong>
               </div>
-            </Col>
-          </Row>
+              <div className="card-body">
+                {!this.state.articles.length ? (
+                  <h1 className="text-center"></h1>
+                ) : (
+                    <List>
+                      {this.state.articles.map(article => {
+                        return (
+                          <ListItem
+                            key={article.snippet}
+                            title={article.snippet}
+                            date={article.pub_date}
+                            href={article.web_url}
+                            buttonText="Save"
+                            onClick={() => this.saveArticle({ title: article.snippet, date: article.pub_date, url: article.web_url })}
+                          />
+                        );
+                      })}
+                    </List>
+                  )}
+              </div>
+            </div>
+          </Col>
+        </Row>
+
+        {/*<div style={{ display: "flex", justifyContent: "space-between" }}>
           <Link to={"/saved"}><p>Click to view saved articles!</p></Link>
-        </Container>
+          <div>
+            <p>Powered by <img src={NYTLogo} /> Article Search API</p>
+          </div>
+                </div>*/}
+
+        <Link to={"/saved"}><p>Click to view saved articles!</p></Link>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <p>Powered by <img src={NYTLogo} /> Article Search API</p>
+        </div>
+
 
       </Container>
+
     );
   }
 

@@ -21,8 +21,8 @@ class Saved extends Component {
 
   loadArticles() {
     API.getArticles()
-    .then(res => this.setState({ savedArticles: res.data }))
-    .catch(err => console.log(err))
+      .then(res => this.setState({ savedArticles: res.data }))
+      .catch(err => console.log(err))
   }
 
   deleteArticle = id => {
@@ -33,46 +33,46 @@ class Saved extends Component {
 
   render() {
     return (
-      <div>
 
+      <Container>
         <Jumbotron />
-        <Container>
-        <Link to={"/"}><p>← Back to article search</p></Link>  
-          <Row>
-            <Col size="md-12">
-              <div className="card">
-                <div className="card-header">
-                  <strong>
-                    <i className="fa fa-list-alt"></i> Saved Articles</strong>
-                </div>
-                <div className="card-body">
-                  {!this.state.savedArticles.length ? (
-                    <h1 className="text-center">No Saved Articles</h1>
-                  ) : (
-                      <List>
-                        {this.state.savedArticles.map(article => {
-                          return (
-                            <ListItem
-                              key={article._id}
-                              title={article.title}
-                              date={article.date}
-                              href={article.url}
-                              buttonText="Delete"
-                              onClick={() => this.deleteArticle(article._id)}
-                            />
-                          );
-                        })}
-                      </List>
-                    )}
-                </div>
+
+        <Link to={"/"}><p>← Back to article search</p></Link>
+        <Row>
+          <Col size="md-12">
+            <div className="card">
+              <div className="card-header">
+                <strong>
+                  <i className="fa fa-list-alt"></i> Saved Articles</strong>
               </div>
-            </Col>
-          </Row>
+              <div className="card-body">
+                {!this.state.savedArticles.length ? (
+                  <h1 className="text-center">No Saved Articles</h1>
+                ) : (
+                    <List>
+                      {this.state.savedArticles.map(article => {
+                        return (
+                          <ListItem
+                            key={article._id}
+                            title={article.title}
+                            date={article.date}
+                            href={article.url}
+                            buttonText="Delete"
+                            onClick={() => this.deleteArticle(article._id)}
+                          />
+                        );
+                      })}
+                    </List>
+                  )}
+              </div>
+            </div>
+          </Col>
+        </Row>
 
-        </Container>
+      </Container>
 
-      </div>
-    );   
+
+    );
   }
 
 }
