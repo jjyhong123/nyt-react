@@ -1,0 +1,15 @@
+.jumbotron {
+    background-image: url("../../util/images/coffee_background_2.jpg");
+    height: 20em;
+    background-position: 54.5% 35%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.jumbotron > div > p {
+    font-size: 1.125em;
+}

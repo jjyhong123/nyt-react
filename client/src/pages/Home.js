@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import Container from "../components/Container.js";
 import Row from "../components/Row.js";
 import Col from "../components/Col.js";
-import Jumbotron from "../components/Jumbotron.js";
+import Jumbotron from "../components/Jumbotron/Jumbotron.js";
 import List from "../components/List.js";
 import ListItem from "../components/ListItem.js";
 import API from "../util/API.js";
 import { Link } from "react-router-dom";
+
+import NYTLogo from "../util/images/nyt_logo.png" //
+
+
 
 class Home extends Component {
 
@@ -54,9 +58,14 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
 
         <Jumbotron />
+
+        <div className="text-center">
+          <p>Powered by <img src={NYTLogo} /> Article Search API</p>
+        </div>
+
         <Container>
           <Row>
             <Col size="md-12">
@@ -65,7 +74,7 @@ class Home extends Component {
                   <strong>
                     <i className="fa fa-list-alt"></i> Search Parameters</strong>
                 </div>
-                <div className="card-body">
+                <div className="card-body text-center">
                   <form>
                     <div className="form-group">
                     <input
@@ -134,7 +143,7 @@ class Home extends Component {
           <Link to={"/saved"}><p>Click to view saved articles!</p></Link>
         </Container>
 
-      </div>
+      </Container>
     );
   }
 

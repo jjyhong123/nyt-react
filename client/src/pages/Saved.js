@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Container from "../components/Container.js";
 import Row from "../components/Row.js";
 import Col from "../components/Col.js";
-import Jumbotron from "../components/Jumbotron.js";
+import Jumbotron from "../components/Jumbotron/Jumbotron.js";
 import List from "../components/List.js";
 import ListItem from "../components/ListItem.js";
 import API from "../util/API.js";
