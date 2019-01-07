@@ -19,7 +19,8 @@ class Home extends Component {
     articles: [],
     topic: "",
     startYear: "",
-    endYear: ""
+    endYear: "",
+    endYearDisabled: true
   };
 
   // handle any changes to the input fields
@@ -31,6 +32,12 @@ class Home extends Component {
     this.setState({
       [name]: value
     });
+
+    if (name === "startYear") {
+      this.setState({
+        endYearDisabled: false
+      })
+    } 
   };
 
   // When the form is submitted, make an axios call to the NYT API
@@ -57,6 +64,7 @@ class Home extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
 
       <Container>
@@ -71,8 +79,7 @@ class Home extends Component {
               </div>
               <div className="card-body">
                 <form>
-                  <div class="form-row justify-content-md-center text-center">
-                    {/*<div className="col-md"></div>*/}
+                  <div className="form-row justify-content-md-center text-center">
                     <div className="col-md-6 mb-2">
                       <input
                         className="form-control"
@@ -84,31 +91,43 @@ class Home extends Component {
                       />
                     </div>
                     <div className="col-md-2 mb-2">
-                      <input
+                      <select
                         className="form-control"
-                        type="number"
-                        placeholder="Start year"
                         name="startYear"
                         value={this.state.startYear}
                         onChange={this.handleInputChange}
-                      />
+                      >
+                        <option value="" select="true" disabled>Start Year</option>
+                        {Array.from({ length: (new Date().getFullYear()) - 1850 }, (v, i) => (new Date().getFullYear()) - i).map(year => {
+                          return (
+                            <option key={year}>{year}</option>
+                          )
+                        })}
+
+                      </select>
                     </div>
                     <div className="col-md-2 mb-2">
-                      <input
+                      <select
                         className="form-control"
-                        type="number"
-                        placeholder="End year"
                         name="endYear"
                         value={this.state.endYear}
                         onChange={this.handleInputChange}
-                      />
+                        disabled={this.state.endYearDisabled}
+                      >
+                        <option value="" select="true" disabled>End Year</option>
+                        {Array.from({ length: (new Date().getFullYear()) - this.state.startYear + 1}, (v, i) => (new Date().getFullYear()) - i).map(year => {
+                          return (
+                            <option key={year}>{year}</option>
+                          )
+                        })}
+
+                      </select>
+
                     </div>
                     <div className="col-md-auto">
                       <button type="button" className="btn btn-secondary" onClick={this.handleFormSubmit}>Submit</button>
                     </div>
-                    {/*<div className="col-md"></div>*/}
                   </div>
-
                 </form>
               </div>
             </div>
