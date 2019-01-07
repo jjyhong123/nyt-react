@@ -4,7 +4,7 @@ import Row from "../components/Row.js";
 import Col from "../components/Col.js";
 import Jumbotron from "../components/Jumbotron/Jumbotron.js";
 import List from "../components/List.js";
-import ListItem from "../components/ListItem.js";
+import ListItem from "../components/ListItem/ListItem.js";
 import API from "../util/API.js";
 import { Link } from "react-router-dom";
 
@@ -37,7 +37,7 @@ class Saved extends Component {
       <Container>
         <Jumbotron />
 
-        <Link to={"/"}><p>← Back to article search</p></Link>
+        <div style={{marginBottom: "30px", padding: "5px"}}><Link to={"/"}><span>← Back to article search</span></Link></div>
         <Row>
           <Col size="md-12">
             <div className="card">
@@ -47,7 +47,7 @@ class Saved extends Component {
               </div>
               <div className="card-body">
                 {!this.state.savedArticles.length ? (
-                  <h1 className="text-center">No Saved Articles</h1>
+                  <h5 className="text-center">No saved articles.</h5>
                 ) : (
                     <List>
                       {this.state.savedArticles.map(article => {
@@ -55,7 +55,7 @@ class Saved extends Component {
                           <ListItem
                             key={article._id}
                             title={article.title}
-                            date={article.date}
+                            date={article.date.substr(0, article.date.indexOf("T"))}
                             href={article.url}
                             buttonText="Delete"
                             onClick={() => this.deleteArticle(article._id)}

@@ -4,13 +4,11 @@ import Row from "../components/Row.js";
 import Col from "../components/Col.js";
 import Jumbotron from "../components/Jumbotron/Jumbotron.js";
 import List from "../components/List.js";
-import ListItem from "../components/ListItem.js";
+import ListItem from "../components/ListItem/ListItem.js";
 import API from "../util/API.js";
 import { Link } from "react-router-dom";
 
 import NYTLogo from "../util/images/nyt_logo.png" //
-
-
 
 class Home extends Component {
 
@@ -20,7 +18,8 @@ class Home extends Component {
     topic: "",
     startYear: "",
     endYear: "",
-    endYearDisabled: true
+    endYearDisabled: true,
+    formSubmitted: false,
   };
 
   // handle any changes to the input fields
@@ -37,12 +36,11 @@ class Home extends Component {
       this.setState({
         endYearDisabled: false
       })
-    } 
+    }
   };
 
   // When the form is submitted, make an axios call to the NYT API
-  handleFormSubmit = event => {
-    event.preventDefault();
+  handleFormSubmit = () => {
     if (this.state.topic && this.state.startYear && this.state.endYear) {
       API.scrubArticles({
         'api-key': "45463f06fa164c8fa0ebdb8e0b188c4e",
@@ -51,7 +49,7 @@ class Home extends Component {
         'end_date': this.state.endYear + "0101",
         'page': "0"
       })
-        .then(res => this.setState({ articles: res.data, topic: "", startYear: "", endYear: "" }))
+        .then(res => this.setState({ articles: res.data, topic: "", startYear: "", endYear: "", endYearDisabled: true, formSubmitted: true }))
         .catch(err => console.log(err));
     }
   };
@@ -64,12 +62,22 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.state)
+    let formSubmitted = this.state.formSubmitted;
+    let noResultsMessage;
+    if (formSubmitted) {
+      noResultsMessage = "There are no articles with those keywords during the specified interval."
+    } else {
+      noResultsMessage = "Form not yet submitted."
+    }
+
     return (
 
       <Container>
+
         <Jumbotron />
+
         <br />
+
         <Row>
           <Col size="md-12">
             <div className="card">
@@ -103,7 +111,6 @@ class Home extends Component {
                             <option key={year}>{year}</option>
                           )
                         })}
-
                       </select>
                     </div>
                     <div className="col-md-2 mb-2">
@@ -115,17 +122,15 @@ class Home extends Component {
                         disabled={this.state.endYearDisabled}
                       >
                         <option value="" select="true" disabled>End Year</option>
-                        {Array.from({ length: (new Date().getFullYear()) - this.state.startYear + 1}, (v, i) => (new Date().getFullYear()) - i).map(year => {
+                        {Array.from({ length: (new Date().getFullYear()) - this.state.startYear + 1 }, (v, i) => (new Date().getFullYear()) - i).map(year => {
                           return (
                             <option key={year}>{year}</option>
                           )
                         })}
-
                       </select>
-
                     </div>
                     <div className="col-md-auto">
-                      <button type="button" className="btn btn-secondary" onClick={this.handleFormSubmit}>Submit</button>
+                      <button type="button" className="btn btn-dark" onClick={this.handleFormSubmit}>Submit</button>
                     </div>
                   </div>
                 </form>
@@ -133,7 +138,9 @@ class Home extends Component {
             </div>
           </Col>
         </Row>
+
         <br />
+
         <Row>
           <Col size="md-12">
             <div className="card">
@@ -143,7 +150,7 @@ class Home extends Component {
               </div>
               <div className="card-body">
                 {!this.state.articles.length ? (
-                  <h1 className="text-center"></h1>
+                  <h5 className="text-center">{noResultsMessage}</h5>
                 ) : (
                     <List>
                       {this.state.articles.map(article => {
@@ -151,7 +158,7 @@ class Home extends Component {
                           <ListItem
                             key={article.snippet}
                             title={article.snippet}
-                            date={article.pub_date}
+                            date={article.pub_date.substr(0, article.pub_date.indexOf("T"))}
                             href={article.web_url}
                             buttonText="Save"
                             onClick={() => this.saveArticle({ title: article.snippet, date: article.pub_date, url: article.web_url })}
@@ -165,17 +172,14 @@ class Home extends Component {
           </Col>
         </Row>
 
-        <Link to={"/saved"}><span>Click to view saved articles!</span></Link>
-        <div className="text-center" style={{ marginTop: "30px" }}>
-          <p style={{ marginBottom: 0, fontFamily: "Georgia" }}>Powered by <img src={NYTLogo} /> Article Search API</p>
+        <div className="text-right" style={{ padding: "5px", marginBottom: "30px" }}><Link to={"/saved"}><span>Click to view saved articles! →</span></Link></div>
+        <div className="text-center">
+          <p style={{ marginBottom: "-10px", fontFamily: "Georgia" }}>Powered by <img src={NYTLogo} /> Article Search API.</p>
         </div>
 
-
       </Container>
-
     );
   }
-
 }
 
 export default Home;
