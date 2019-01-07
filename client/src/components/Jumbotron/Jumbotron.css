@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-bottom: 0;
 }
 
 .jumbotron > div > p {

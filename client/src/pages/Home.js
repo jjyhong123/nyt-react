@@ -61,6 +61,7 @@ class Home extends Component {
 
       <Container>
         <Jumbotron />
+        <br />
         <Row>
           <Col size="md-12">
             <div className="card">
@@ -68,36 +69,46 @@ class Home extends Component {
                 <strong>
                   <i className="fa fa-list-alt"></i> Search Parameters</strong>
               </div>
-              <div className="card-body text-center">
+              <div className="card-body">
                 <form>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="Topic"
-                      name="topic"
-                      value={this.state.topic}
-                      onChange={this.handleInputChange}
-                    />
+                  <div class="form-row justify-content-md-center text-center">
+                    {/*<div className="col-md"></div>*/}
+                    <div className="col-md-6 mb-2">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Topic"
+                        name="topic"
+                        value={this.state.topic}
+                        onChange={this.handleInputChange}
+                      />
+                    </div>
+                    <div className="col-md-2 mb-2">
+                      <input
+                        className="form-control"
+                        type="number"
+                        placeholder="Start year"
+                        name="startYear"
+                        value={this.state.startYear}
+                        onChange={this.handleInputChange}
+                      />
+                    </div>
+                    <div className="col-md-2 mb-2">
+                      <input
+                        className="form-control"
+                        type="number"
+                        placeholder="End year"
+                        name="endYear"
+                        value={this.state.endYear}
+                        onChange={this.handleInputChange}
+                      />
+                    </div>
+                    <div className="col-md-auto">
+                      <button type="button" className="btn btn-secondary" onClick={this.handleFormSubmit}>Submit</button>
+                    </div>
+                    {/*<div className="col-md"></div>*/}
                   </div>
-                  <div className="form-group">
-                    <input
-                      type="number"
-                      placeholder="Start year"
-                      name="startYear"
-                      value={this.state.startYear}
-                      onChange={this.handleInputChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="number"
-                      placeholder="End year"
-                      name="endYear"
-                      value={this.state.endYear}
-                      onChange={this.handleInputChange}
-                    />
-                  </div>
-                  <button onClick={this.handleFormSubmit}>Submit</button>
+
                 </form>
               </div>
             </div>
@@ -135,16 +146,9 @@ class Home extends Component {
           </Col>
         </Row>
 
-        {/*<div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Link to={"/saved"}><p>Click to view saved articles!</p></Link>
-          <div>
-            <p>Powered by <img src={NYTLogo} /> Article Search API</p>
-          </div>
-                </div>*/}
-
-        <Link to={"/saved"}><p>Click to view saved articles!</p></Link>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <p>Powered by <img src={NYTLogo} /> Article Search API</p>
+        <Link to={"/saved"}><span>Click to view saved articles!</span></Link>
+        <div className="text-center" style={{ marginTop: "30px" }}>
+          <p style={{ marginBottom: 0, fontFamily: "Georgia" }}>Powered by <img src={NYTLogo} /> Article Search API</p>
         </div>
 
 
